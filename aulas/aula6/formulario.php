@@ -1,4 +1,21 @@
 
+<?php
+$hostname = 'localhost';
+$username = 'postgres';
+$password = 'tralala'; // Senha
+$database = 'divus';
+
+$conexao = "pgsql:host=$hostname;dbname=$database";
+
+try {
+    $dbh = new PDO($conexao, $username, $password);
+}
+catch(PDOException $e)
+{
+  echo $e->getMessage();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -73,6 +90,8 @@
 
 $erros = [];
 
+$count = 0;
+
 if($_POST){
 
   //echo "Foi realizado um post <br>";
@@ -97,13 +116,41 @@ if($_POST){
 
   }
 
+   // Validando nome
+  if($dados['inputSenha'] == ""){
 
-}
+    $erros[] = "O campo senha esta vazio!";
+
+  }
+
+  // Testa se nao encontrou nenhum erro
+  if(count($erros) == 0){
+
+    // Inserir no banco
+    $sql = "INSERT INTO usuario(
+              nome, email, senha)
+      VALUES ('" . $dados['inputNome'] .  "', 
+        '" .$dados['inputEmail'] . "', 
+        '" .$dados['inputSenha'] . "');";
+
+    //echo $sql;
+
+    $count = $dbh->exec($sql);
+
+    if($count == 0){
+
+      $erros[] = "Ocorreu um erro ao inserir o usuario!";
+
+    }
+
+  } // if
+
+} // _POST
 
 ?>
 
 <?php
-if(count($erros) > 0){
+if(count($erros) > 0):
 ?>
 
   <div class="alert alert-danger" role="alert">
@@ -111,18 +158,32 @@ if(count($erros) > 0){
     <?php
 
     // Mostrar os erros
-    foreach($erros as $erro){
+    foreach($erros as $erro):
 
       echo $erro . "<br>";
 
-    }
+    endforeach;
 
     ?>
 
   </div>
 
 <?php
-}
+endif;
+?>
+
+<?php
+if($count == 1):
+?>
+
+  <div class="alert alert-success" role="alert">
+
+    Usuario inserido com sucesso
+
+  </div>
+
+<?php
+endif;
 ?>
 
           <form action="" method="post" class="form-horizontal">
@@ -138,6 +199,13 @@ if(count($erros) > 0){
               <label for="inputNome" class="col-sm-2 control-label">Nome</label>
               <div class="col-sm-6">
                 <input type="text" class="form-control" id="inputNome" name="usuario[inputNome]" placeholder="Nome">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="inputSenha" class="col-sm-2 control-label">Senha</label>
+              <div class="col-sm-6">
+                <input type="password" class="form-control" id="inputSenha" name="usuario[inputSenha]" placeholder="Senha">
               </div>
             </div>
 
