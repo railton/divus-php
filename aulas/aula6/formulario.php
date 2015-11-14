@@ -71,28 +71,73 @@
 
 <?php
 
+$erros = [];
+
 if($_POST){
 
-  echo "Foi realizado um post <br>";
-  echo $_POST['inputEmail'] . "<br>";
-  echo $_POST['inputNome'] . "<br>";
+  //echo "Foi realizado um post <br>";
+
+  // echo "<pre>";
+  // print_r($_POST['usuario']);
+  // echo "</pre>";
+
+  $dados = $_POST['usuario'];
+
+  // validando e-mail
+  if($dados['inputEmail'] == ""){
+
+    $erros[] = "O campo e-mail esta vazio!";
+
+  }
+
+  // Validando nome
+  if($dados['inputNome'] == ""){
+
+    $erros[] = "O campo nome esta vazio!";
+
+  }
+
+
 }
 
 ?>
 
-          <form action="formulario.php" method="post" class="form-horizontal">
+<?php
+if(count($erros) > 0){
+?>
+
+  <div class="alert alert-danger" role="alert">
+
+    <?php
+
+    // Mostrar os erros
+    foreach($erros as $erro){
+
+      echo $erro . "<br>";
+
+    }
+
+    ?>
+
+  </div>
+
+<?php
+}
+?>
+
+          <form action="" method="post" class="form-horizontal">
 
             <div class="form-group">
               <label for="inputEmail" class="col-sm-2 control-label">E-mail</label>
               <div class="col-sm-4">
-                <input type="email" class="form-control" id="inputEmail" name="inputEmail" placeholder="E-mail">
+                <input type="text" class="form-control" id="inputEmail" name="usuario[inputEmail]" placeholder="E-mail">
               </div>
             </div>
 
             <div class="form-group">
               <label for="inputNome" class="col-sm-2 control-label">Nome</label>
               <div class="col-sm-6">
-                <input type="text" class="form-control" id="inputNome" name="inputNome" placeholder="Nome">
+                <input type="text" class="form-control" id="inputNome" name="usuario[inputNome]" placeholder="Nome">
               </div>
             </div>
 
