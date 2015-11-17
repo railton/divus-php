@@ -1,1 +1,1 @@
-Curso de PHP
+Treinamento de PHP
