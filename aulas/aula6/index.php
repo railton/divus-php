@@ -73,7 +73,10 @@
 
 
       <div class="page-header">
-        <h1>Tables</h1>
+        <h1>Usuários</h1> 
+
+        <a href="formulario.php" class="btn btn-primary">Cadastrar usuário</a>
+
       </div>
       <div class="row">
         <div class="col-md-12">
@@ -85,26 +88,14 @@
                 <th>#</th>
                 <th>Nome</th>
                 <th>E-mail</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
 
 <?php
 
-$hostname = 'localhost';
-$username = 'postgres';
-$password = 'tralala'; // Senha
-$database = 'divus';
-
-$conexao = "pgsql:host=$hostname;dbname=$database";
-
-try {
-    $dbh = new PDO($conexao, $username, $password);
-}
-catch(PDOException $e)
-{
-  echo $e->getMessage();
-}
+require_once('db.php');
 
 
 //Recuperar todos registros
@@ -124,6 +115,17 @@ foreach($rows as $row): // {
                 <td><?= $row['codigo'] ?></td>
                 <td><?= $row['nome'] ?></td>
                 <td><?= $row['email'] ?></td>
+                <td>
+
+                   <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
+                      
+                      <a href="alterar.php?codigo=<?= $row['codigo'] ?>" class="btn btn-default">Alterar</a>
+                      <a href="delete.php?codigo=<?= $row['codigo'] ?>" class="btn btn-danger">Deletar</a>
+
+                    </div>
+
+
+                </td>
               </tr>
 
 <?php
