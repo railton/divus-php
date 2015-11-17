@@ -2,7 +2,7 @@
 <?php
 $hostname = 'localhost';
 $username = 'postgres';
-$password = 'tralala'; // Senha
+$password = 'senha'; // Senha
 $database = 'divus';
 
 $conexao = "pgsql:host=$hostname;dbname=$database";
