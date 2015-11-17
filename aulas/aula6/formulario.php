@@ -1,19 +1,6 @@
 
 <?php
-$hostname = 'localhost';
-$username = 'postgres';
-$password = 'tralala'; // Senha
-$database = 'divus';
-
-$conexao = "pgsql:host=$hostname;dbname=$database";
-
-try {
-    $dbh = new PDO($conexao, $username, $password);
-}
-catch(PDOException $e)
-{
-  echo $e->getMessage();
-}
+require_once('db.php');
 ?>
 
 <!DOCTYPE html>
@@ -126,12 +113,14 @@ if($_POST){
   // Testa se nao encontrou nenhum erro
   if(count($erros) == 0){
 
+    $md5 = md5($dados['inputSenha']);
+
     // Inserir no banco
     $sql = "INSERT INTO usuario(
               nome, email, senha)
       VALUES ('" . $dados['inputNome'] .  "', 
         '" .$dados['inputEmail'] . "', 
-        '" .$dados['inputSenha'] . "');";
+        '$md5');";
 
     //echo $sql;
 
@@ -211,7 +200,11 @@ endif;
 
             <div class="form-group">
               <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default">Cadastrar</button>
+                
+                <button type="submit" class="btn btn-success">Cadastrar</button>
+
+                <a href="index.php" class="btn btn-info">Voltar</a>
+
               </div>
             </div>
 
