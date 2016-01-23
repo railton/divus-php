@@ -40,7 +40,7 @@ class Estado extends \yii\db\ActiveRecord
     {
         return [
             'esta_codigo' => 'Esta Codigo',
-            'esta_nome' => 'Esta Nome',
+            'esta_nome' => 'Estado',
         ];
     }
 

@@ -6,7 +6,7 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\Expression; 
 use DateTime;
-
+use yiibr\brvalidator\CpfValidator;
 /**
  * This is the model class for table "aluno".
  *
@@ -60,6 +60,7 @@ class Aluno extends \yii\db\ActiveRecord
             [['alun_matricula'], 'string', 'max' => 10],
             [['alun_matricula'], 'unique'],
             [['alun_data_nascimento'], 'validarData'],
+            //['alun_matricula', CpfValidator::className()],
         ];
     }
     
@@ -95,7 +96,7 @@ class Aluno extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getMuniCodigo()
+    public function getMunicipio()
     {
         return $this->hasOne(Municipio::className(), ['muni_codigo' => 'muni_codigo']);
     }

@@ -28,6 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'muni_codigo',
             'muni_nome',
             'esta_codigo',
+            'estado.esta_nome',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

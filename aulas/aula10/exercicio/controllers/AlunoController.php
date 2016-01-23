@@ -8,6 +8,7 @@ use app\models\AlunoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use mPDF;
 
 /**
  * AlunoController implements the CRUD actions for Aluno model.
@@ -39,6 +40,17 @@ class AlunoController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+    }
+    
+    public function actionPdf(){        
+        
+        $alunos = Aluno::find()->all();
+        //$this->layout = 'main-pdf'; // Criar este layout
+ 	$html =  $this->render('pdf',['alunos'=>$alunos]); // Criar esta view
+        
+        $mpdf = new \mPDF(); 
+        $mpdf->WriteHTML($html);
+        $mpdf->Output();
     }
 
     /**

@@ -59,7 +59,7 @@ class Municipio extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getEstaCodigo()
+    public function getEstado()
     {
         return $this->hasOne(Estado::className(), ['esta_codigo' => 'esta_codigo']);
     }

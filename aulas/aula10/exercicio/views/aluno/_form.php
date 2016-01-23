@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 //use app\models\Estado;
 use yii\helpers\Url;
+use kartik\widgets\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Aluno */
@@ -16,9 +17,16 @@ use yii\helpers\Url;
 
     <?= $form->field($model, 'alun_nome')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'alun_matricula')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'alun_matricula')->textInput() ?>
 
-    <?= $form->field($model, 'alun_data_nascimento')->textInput() ?>
+    
+    <?=  $form->field($model, 'alun_data_nascimento')->widget(DatePicker::classname(), [
+    'options' => ['placeholder' => 'Selecione uma data ...'],
+    'pluginOptions' => [
+        'autoclose'=>true,
+        'format' => 'dd/mm/yyyy'
+    ]
+    ]) ?>
 
     <?= $form->field($model, 'alun_habilitado')->checkbox() ?>
 

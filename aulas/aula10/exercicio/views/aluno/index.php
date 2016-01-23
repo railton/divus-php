@@ -40,3 +40,30 @@ $this->params['breadcrumbs'][] = $this->title;
     ]); ?>
 
 </div>
+
+
+<?php
+
+use app\models\Aluno;
+use app\models\Estado;
+
+//$model = new Aluno();
+//$model->alun_nome = "Francisco";
+//$model->alun_matricula = "23423";
+//$model->alun_data_nascimento = "09/09/1999";
+//$model->muni_codigo = 1;
+//$model->esta_codigo = 1;
+//$model->save();
+//
+//print_r($model->errors);
+
+
+$estado = Estado::findOne(1);
+
+echo $estado->esta_nome . "<br>";
+
+foreach($estado->municipios as $municipio){
+    echo $municipio->muni_nome . "<br>";
+}
+
+?>
