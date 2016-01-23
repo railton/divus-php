@@ -3,16 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Aluno;
-use app\models\AlunoSearch;
+use app\models\Usuario;
+use app\models\UsuarioSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * AlunoController implements the CRUD actions for Aluno model.
+ * UsuarioController implements the CRUD actions for Usuario model.
  */
-class AlunoController extends Controller
+class UsuarioController extends Controller
 {
     public function behaviors()
     {
@@ -27,12 +27,12 @@ class AlunoController extends Controller
     }
 
     /**
-     * Lists all Aluno models.
+     * Lists all Usuario models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new AlunoSearch();
+        $searchModel = new UsuarioSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -42,7 +42,7 @@ class AlunoController extends Controller
     }
 
     /**
-     * Displays a single Aluno model.
+     * Displays a single Usuario model.
      * @param integer $id
      * @return mixed
      */
@@ -54,18 +54,16 @@ class AlunoController extends Controller
     }
 
     /**
-     * Creates a new Aluno model.
+     * Creates a new Usuario model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Aluno();
+        $model = new Usuario();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', 'Aluno cadastrado com sucesso!');
-            //return $this->redirect(['view', 'id' => $model->codigo]);
-            return $this->redirect(['index']);
+            return $this->redirect(['view', 'id' => $model->codigo]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -74,7 +72,7 @@ class AlunoController extends Controller
     }
 
     /**
-     * Updates an existing Aluno model.
+     * Updates an existing Usuario model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -93,7 +91,7 @@ class AlunoController extends Controller
     }
 
     /**
-     * Deletes an existing Aluno model.
+     * Deletes an existing Usuario model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -106,15 +104,15 @@ class AlunoController extends Controller
     }
 
     /**
-     * Finds the Aluno model based on its primary key value.
+     * Finds the Usuario model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Aluno the loaded model
+     * @return Usuario the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Aluno::findOne($id)) !== null) {
+        if (($model = Usuario::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

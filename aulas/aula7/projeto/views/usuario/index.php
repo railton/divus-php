@@ -4,26 +4,20 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\AlunoSearch */
+/* @var $searchModel app\models\UsuarioSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Alunos';
+$this->title = 'Usuarios';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="aluno-index">
+<div class="usuario-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Cadastrar Aluno', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Usuario', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-    
-    <?php
-    foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
-        echo '<div class="alert alert-' . $key . '">' . $message . '</div>';
-    }
-    ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -32,11 +26,11 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'codigo',
-            'nome',
-            'matricula',
             'email:email',
-            'habilitado:boolean',
-            'total',
+            'nome',
+            'senha',
+            'admin:boolean',
+            // 'habilitado:boolean',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
