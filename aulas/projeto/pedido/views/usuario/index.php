@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use yii\bootstrap\Alert;
+use app\widgets\Alert;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\UsuarioSearch */
@@ -16,18 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     
-    <?php
-    foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
-        
-        //echo '<div class="alert alert-' . $key . '">' . $message . '</div>';
-        echo Alert::widget([
-            'options' => [
-                'class' => 'alert-' . $key,
-            ],
-            'body' => $message,
-        ]);
-    }
-    ?>
+     <?= Alert::widget() ?>
 
     <p>
         <?= Html::a('Create Usuario', ['create'], ['class' => 'btn btn-success']) ?>
@@ -43,7 +32,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'usua_nome',
             'usua_email:email',
             //'usua_senha',
-            'usua_tipo',
+            //'usua_tipo',
+            [
+                'attribute' => 'usua_tipo',
+                //'format' => 'raw',
+                'value' => function ($model) {                      
+                        return $model->getTipo($model->usua_tipo);
+                },
+            ],
             // 'usua_auth_key',
 
             ['class' => 'yii\grid\ActionColumn'],

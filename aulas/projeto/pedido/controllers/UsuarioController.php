@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\web\UploadedFile;
 
 /**
  * UsuarioController implements the CRUD actions for Usuario model.
@@ -23,12 +24,7 @@ class UsuarioController extends Controller
                 'only' => ['index', 'create', 'update', 'delete'],
                 'rules' => [
                     [
-                        'actions' => ['index'],
-                        'allow' => true,
-                        'roles' => ['?'],
-                    ],
-                    [
-                        'actions' => ['create', 'update', 'delete'],
+                        'actions' => ['index','create', 'update', 'delete'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -82,19 +78,26 @@ class UsuarioController extends Controller
         
         $model->usua_habilitado = true;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
             
-            Yii::$app->session->setFlash('success', 'Usuário cadastrado com sucesso!');
+            $model->usua_imagem = UploadedFile::getInstance($model, 'usua_imagem');
+        
+            if($model->save()){
+                
+                Yii::$app->session->setFlash('success', 'Usuário cadastrado com sucesso!');
             
-            return $this->redirect(['index']);
+                return $this->redirect(['index']);
+            
+            }
             
             //return $this->redirect(['view', 'id' => $model->usua_codigo]);
             
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
+        } 
+        
+        return $this->render('create', [
+            'model' => $model,
+        ]);
+        
     }
 
     /**
@@ -107,13 +110,25 @@ class UsuarioController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->usua_codigo]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+        if ($model->load(Yii::$app->request->post())) {
+            
+            $model->usua_imagem = UploadedFile::getInstance($model, 'usua_imagem');
+            
+            if($model->save()){
+                
+                Yii::$app->session->setFlash('success', 'Usuário alterado com sucesso!');
+            
+                return $this->redirect(['index']);
+                //return $this->redirect(['view', 'id' => $model->usua_codigo]);
+            
+            }
+            
         }
+        
+        return $this->render('update', [
+            'model' => $model,
+        ]);
+        
     }
 
     /**

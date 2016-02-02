@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\imagine\Image;
+use Imagine\Image\Box;
 
 /**
  * This is the model class for table "usuario".
@@ -18,6 +20,9 @@ use Yii;
  */
 class Usuario extends \yii\db\ActiveRecord
 {
+    public $usua_imagem; 
+    public $usua_senha_temp;
+    
     /**
      * @inheritdoc
      */
@@ -39,8 +44,9 @@ class Usuario extends \yii\db\ActiveRecord
             [['usua_senha'], 'string', 'max' => 60],
             [['usua_auth_key'], 'string', 'max' => 32],
             ['usua_email', 'email', 'message' => 'Ei doidao, o email ta errado'],
-            [['usua_auth_key'], 'safe'],
+            [['usua_auth_key', 'usua_senha_temp'], 'safe'],
             ['usua_habilitado', 'boolean'],
+            [['usua_imagem'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
         ];
     }
 
@@ -57,7 +63,14 @@ class Usuario extends \yii\db\ActiveRecord
             'usua_tipo' => 'Tipo',
             'usua_auth_key' => 'Auth Key',
             'usua_habilitado' => 'Habilitado',
+            'usua_imagem' => 'Imagem',
         ];
+    }
+    
+    public function afterFind() {
+        
+        $this->usua_senha_temp = $this->usua_senha;
+        
     }
 
     /**
@@ -72,13 +85,25 @@ class Usuario extends \yii\db\ActiveRecord
     {
         if (parent::beforeSave($insert)) {
             
+            
             if ($this->isNewRecord) {
                 
                 $this->usua_auth_key = \Yii::$app->security->generateRandomString();
                 
                 $this->usua_senha = Yii::$app->getSecurity()->generatePasswordHash($this->usua_senha);
                 
+            }else{
+                
+                // Caso a senha seja alterada, aplicar novamente a criptografia
+                if($this->usua_senha_temp != $this->usua_senha){
+                    
+                    $this->usua_senha = Yii::$app->getSecurity()->generatePasswordHash($this->usua_senha);
+                    
+                }
+                
             }
+            
+            $this->upload();
             
             return true;
             
@@ -86,4 +111,37 @@ class Usuario extends \yii\db\ActiveRecord
         
         return false;
     }
+    
+    public function upload()
+    {
+        
+        if ($this->usua_imagem instanceof \yii\web\UploadedFile) {
+            
+            //Image::frame($this->usua_imagem->tempName)->save();
+            
+            $imagem = 'uploads/' . $this->usua_codigo . '.png';
+            
+            $imagine = Image::getImagine()
+                ->open($this->usua_imagem->tempName)
+                ->thumbnail(new Box(80, 80))
+                ->save($imagem, ['quality' => 90]);
+            
+        }
+        
+    }
+    
+    public function getTipos(){
+        
+        return [1 => 'Admin', 2 => 'Gerente', 3 => 'Vendedor'];;
+        
+    }
+    
+    public function getTipo($tipo){
+        
+        $tipos = $this->getTipos();
+        
+        return $tipos[$tipo];
+        
+    }
+    
 }

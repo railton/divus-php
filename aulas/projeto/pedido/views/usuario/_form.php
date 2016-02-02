@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
 
 <div class="usuario-form">
 
-    <?php $form = ActiveForm::begin(['enableClientValidation' => false]); ?>
+    <?php $form = ActiveForm::begin(['enableClientValidation' => false, 'options' => ['enctype' => 'multipart/form-data']]); ?>
 
     <?= $form->field($model, 'usua_nome')->textInput(['maxlength' => true]) ?>
 
@@ -20,6 +20,23 @@ use yii\widgets\ActiveForm;
     
     <?= $form->field($model, 'usua_tipo')->dropDownList([1 => 'Admin', 2 => 'Gerente', 3 => 'Vendedor'], ['prompt'=>'Selecione']) ?>
 
+    <?= $form->field($model, 'usua_habilitado')->checkbox(); ?>
+    
+    <?= $form->field($model, 'usua_imagem')->fileInput() ?>
+    
+    <?php
+    
+        $imagem = 'uploads/' . $model->usua_codigo . '.png';
+        
+        if(is_file($imagem)){
+            
+            echo Html::img($imagem, ['class' => 'thumbnail']);
+            
+        }
+    
+    ?>
+    
+ 
     
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Cadastrar' : 'Alterar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
@@ -31,7 +48,7 @@ use yii\widgets\ActiveForm;
 
 
 <?php
-
-print_r($model->errors);
+// Debugar
+//print_r($model->errors);
 
 ?>
