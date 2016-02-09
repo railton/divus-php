@@ -123,7 +123,7 @@ class Usuario extends \yii\db\ActiveRecord
             
             $imagine = Image::getImagine()
                 ->open($this->usua_imagem->tempName)
-                ->thumbnail(new Box(80, 80))
+                ->thumbnail(new Box(140, 140))
                 ->save($imagem, ['quality' => 90]);
             
         }

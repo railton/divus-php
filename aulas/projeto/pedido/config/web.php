@@ -8,6 +8,27 @@ $config = [
     'bootstrap' => ['log'],
     'language' => 'pt-BR',
     'components' => [
+        'formatter' => [
+            'dateFormat' => 'dd/MM/yyyy',
+            'datetimeFormat' => 'HH:mm:ss dd/MM/yyyy',
+            'decimalSeparator' => ',',
+            'thousandSeparator' => '.',
+            'currencyCode' => 'BRL',
+            'defaultTimeZone' => 'America/Manaus',
+            'numberFormatterOptions' => [
+                NumberFormatter::MIN_FRACTION_DIGITS => 2,
+                NumberFormatter::MAX_FRACTION_DIGITS => 2,
+            ],
+        ],
+        'assetManager' => [
+            'bundles' => [
+                'yii\bootstrap\BootstrapAsset' => [
+                    'basePath' => '@webroot',
+                    'baseUrl' => '@web',
+                    'css' => ['css/yeti.css']
+                ],
+            ],
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'dwMqiVWtsdhvZpJxY3iEru8l18q5Vkb9',

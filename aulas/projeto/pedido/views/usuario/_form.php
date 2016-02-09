@@ -10,7 +10,10 @@ use yii\widgets\ActiveForm;
 
 <div class="usuario-form">
 
-    <?php $form = ActiveForm::begin(['enableClientValidation' => false, 'options' => ['enctype' => 'multipart/form-data']]); ?>
+    <?php $form = ActiveForm::begin([
+        'enableClientValidation' => false, 
+        'options' => ['enctype' => 'multipart/form-data']
+    ]); ?>
 
     <?= $form->field($model, 'usua_nome')->textInput(['maxlength' => true]) ?>
 
